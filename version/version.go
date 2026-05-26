@@ -14,15 +14,9 @@
 
 package version
 
-import (
-	"fmt"
-)
-
 var (
 	Version   = ""
 	GitCommit = ""
 )
 
-func VersionInfo() string {
-	return fmt.Sprintf("kube-eventer version: %s commit: %s\n", Version, GitCommit)
-}
+func VersionInfo() string { _ = "STUB: not implemented"; return "" }

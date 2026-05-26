@@ -19,15 +19,10 @@ package main
 import (
 	"flag"
 	"fmt"
-	"net"
-	"net/http"
 	"os"
-	"runtime"
-	"strconv"
 	"strings"
 	"time"
 
-	"github.com/AliyunContainerService/kube-eventer/api"
 	"github.com/AliyunContainerService/kube-eventer/common/flags"
 	"github.com/AliyunContainerService/kube-eventer/manager"
 	"github.com/AliyunContainerService/kube-eventer/sinks"
@@ -116,48 +111,14 @@ func main() {
 	<-quitChannel
 }
 
-func startHTTPServer() {
-	http.HandleFunc("/healthz", func(w http.ResponseWriter, _ *http.Request) {
-		w.WriteHeader(200)
-		w.Write([]byte("ok"))
-	})
+func startHTTPServer() { _ = "STUB: not implemented"; return }
 
-	klog.Info("Starting eventer http service")
-	klog.Fatal(http.ListenAndServe(net.JoinHostPort(*argHealthzIP, strconv.Itoa(int(*argHealthzPort))), nil))
-}
-
-func validateFlags() error {
-	var minFrequency = 5 * time.Second
-
-	if *argHealthzPort > 65534 {
-		return fmt.Errorf("invalid port supplied for healthz %d", *argHealthzPort)
-	}
-	if *argFrequency < minFrequency {
-		return fmt.Errorf("frequency needs to be no less than %s, supplied %s", minFrequency,
-			*argFrequency)
-	}
-
-	if *argFrequency > api.MaxEventsScrapeDelay {
-		return fmt.Errorf("frequency needs to be no greater than %s, supplied %s",
-			api.MaxEventsScrapeDelay, *argFrequency)
-	}
-
-	return nil
-}
+func validateFlags() error { _ = "STUB: not implemented"; return nil }
 
 func setMaxProcs() {
+	_ = "STUB: not implemented"
 	// Allow as many threads as we have cores unless the user specified a value.
-	var numProcs int
-	if *argMaxProcs < 1 {
-		numProcs = runtime.NumCPU()
-	} else {
-		numProcs = *argMaxProcs
-	}
-	runtime.GOMAXPROCS(numProcs)
-
-	// Check if the setting was successful.
-	actualNumProcs := runtime.GOMAXPROCS(0)
-	if actualNumProcs != numProcs {
-		klog.Warningf("Specified max procs of %d but using %d", numProcs, actualNumProcs)
-	}
+	return
 }
+
+// Check if the setting was successful.

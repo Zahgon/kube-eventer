@@ -1,6 +1,6 @@
 package sarama
 
-//ControlRecordType ...
+// ControlRecordType ...
 type ControlRecordType int
 
 const (

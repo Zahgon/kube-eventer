@@ -144,48 +144,16 @@ var gcmNodeAutoscalingLabels = []LabelDescriptor{
 	LabelHostname,
 }
 
-func CommonLabels() []LabelDescriptor {
-	result := make([]LabelDescriptor, len(commonLabels))
-	copy(result, commonLabels)
-	return result
-}
+func CommonLabels() []LabelDescriptor { _ = "STUB: not implemented"; return nil }
 
-func ContainerLabels() []LabelDescriptor {
-	result := make([]LabelDescriptor, len(containerLabels))
-	copy(result, containerLabels)
-	return result
-}
+func ContainerLabels() []LabelDescriptor { _ = "STUB: not implemented"; return nil }
 
-func PodLabels() []LabelDescriptor {
-	result := make([]LabelDescriptor, len(podLabels))
-	copy(result, podLabels)
-	return result
-}
+func PodLabels() []LabelDescriptor { _ = "STUB: not implemented"; return nil }
 
-func MetricLabels() []LabelDescriptor {
-	result := make([]LabelDescriptor, len(metricLabels)+len(customMetricLabels))
-	copy(result, metricLabels)
-	copy(result, customMetricLabels)
-	return result
-}
+func MetricLabels() []LabelDescriptor { _ = "STUB: not implemented"; return nil }
 
-func SupportedLabels() []LabelDescriptor {
-	result := CommonLabels()
-	result = append(result, PodLabels()...)
-	return append(result, MetricLabels()...)
-}
+func SupportedLabels() []LabelDescriptor { _ = "STUB: not implemented"; return nil }
 
-func GcmLabels() map[string]LabelDescriptor {
-	result := make(map[string]LabelDescriptor, len(gcmLabels))
-	for _, l := range gcmLabels {
-		result[l.Key] = l
-	}
-	return result
-}
-func GcmNodeAutoscalingLabels() map[string]LabelDescriptor {
-	result := make(map[string]LabelDescriptor, len(gcmNodeAutoscalingLabels))
-	for _, l := range gcmNodeAutoscalingLabels {
-		result[l.Key] = l
-	}
-	return result
-}
+func GcmLabels() map[string]LabelDescriptor { _ = "STUB: not implemented"; return nil }
+
+func GcmNodeAutoscalingLabels() map[string]LabelDescriptor { _ = "STUB: not implemented"; return nil }

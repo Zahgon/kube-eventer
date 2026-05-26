@@ -367,10 +367,12 @@ func verifyConversionFunctionSignature(ft reflect.Type) error {
 //
 // Example:
 // c.RegisterConversionFunc(
-//         func(in *Pod, out *v1.Pod, s Scope) error {
-//                 // conversion logic...
-//                 return nil
-//          })
+//
+//	func(in *Pod, out *v1.Pod, s Scope) error {
+//	        // conversion logic...
+//	        return nil
+//	 })
+//
 // DEPRECATED: Will be removed in favor of RegisterUntypedConversionFunc
 func (c *Converter) RegisterConversionFunc(conversionFunc interface{}) error {
 	return c.conversionFuncs.Add(conversionFunc)

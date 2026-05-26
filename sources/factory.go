@@ -15,43 +15,21 @@
 package sources
 
 import (
-	"fmt"
-
 	"github.com/AliyunContainerService/kube-eventer/common/flags"
 	"github.com/AliyunContainerService/kube-eventer/core"
-	kube "github.com/AliyunContainerService/kube-eventer/sources/kubernetes"
-	"k8s.io/klog/v2"
 )
 
 type SourceFactory struct {
 }
 
 func (this *SourceFactory) Build(uri flags.Uri, exportMetric bool) (core.EventSource, error) {
-	switch uri.Key {
-	case "kubernetes":
-		src, err := kube.NewKubernetesSource(&uri.Val, exportMetric)
-		return src, err
-	default:
-		return nil, fmt.Errorf("Source not recognized: %s", uri.Key)
-	}
+	_ = "STUB: not implemented"
+	return *new(core.EventSource), nil
 }
 
 func (this *SourceFactory) BuildAll(uris flags.Uris, exportMetric bool) ([]core.EventSource, error) {
-	if len(uris) != 1 {
-		return nil, fmt.Errorf("Only one source is supported")
-	}
-	result := []core.EventSource{}
-	for _, uri := range uris {
-		source, err := this.Build(uri, exportMetric)
-		if err != nil {
-			klog.Errorf("Failed to create %s: %v", uri.Key, err)
-		} else {
-			result = append(result, source)
-		}
-	}
-	return result, nil
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
-func NewSourceFactory() *SourceFactory {
-	return &SourceFactory{}
-}
+func NewSourceFactory() *SourceFactory { _ = "STUB: not implemented"; return nil }

@@ -15,17 +15,14 @@
 package elasticsearch
 
 import (
-	"github.com/AliyunContainerService/kube-eventer/util"
 	"net/url"
 	"sync"
 	"time"
 
 	esCommon "github.com/AliyunContainerService/kube-eventer/common/elasticsearch"
 	event_core "github.com/AliyunContainerService/kube-eventer/core"
-	"github.com/AliyunContainerService/kube-eventer/metrics/core"
 	"github.com/prometheus/client_golang/prometheus"
 	kube_api "k8s.io/api/core/v1"
-	"k8s.io/klog/v2"
 )
 
 const (
@@ -57,103 +54,26 @@ type EsSinkPoint struct {
 }
 
 func eventToPoint(event *kube_api.Event, clusterName string) (*EsSinkPoint, error) {
-	var (
-		firstOccurrenceTimestamp = event.FirstTimestamp.Time.UTC()
-		lastOccurrenceTimestamp  = util.GetLastEventTimestamp(event).UTC()
-	)
-
-	// Part of k8s resources FirstOccurrenceTimestamp/LastOccurrenceTimestamp is nil
-	if util.GetLastEventTimestamp(event).UTC().IsZero() {
-		lastOccurrenceTimestamp = util.GetLastEventTimestamp(event).UTC()
-	}
-
-	if event.FirstTimestamp.Time.UTC().IsZero() {
-		firstOccurrenceTimestamp = event.FirstTimestamp.Time.UTC()
-	}
-
-	point := EsSinkPoint{
-		FirstOccurrenceTimestamp: firstOccurrenceTimestamp,
-		LastOccurrenceTimestamp:  lastOccurrenceTimestamp,
-		Message:                  event.Message,
-		Reason:                   event.Reason,
-		Type:                     event.Type,
-		Count:                    event.Count,
-		Metadata:                 event.ObjectMeta,
-		InvolvedObject:           event.InvolvedObject,
-		Source:                   event.Source,
-		EventTags: map[string]string{
-			"eventID":      string(event.UID),
-			"cluster_name": clusterName,
-		},
-	}
-	if event.InvolvedObject.Kind == "Pod" {
-		point.EventTags[core.LabelPodId.Key] = string(event.InvolvedObject.UID)
-		point.EventTags[core.LabelPodName.Key] = event.InvolvedObject.Name
-	}
-	point.EventTags[core.LabelHostname.Key] = event.Source.Host
-	return &point, nil
+	_ = "STUB: not implemented"
+	return nil, nil
 }
+
+// Part of k8s resources FirstOccurrenceTimestamp/LastOccurrenceTimestamp is nil
 
 func (sink *elasticSearchSink) ExportEvents(eventBatch *event_core.EventBatch) {
-	var namespace string
-	sink.Lock()
-	defer sink.Unlock()
-	for _, event := range eventBatch.Events {
-		point, err := eventToPoint(event, sink.esSvc.ClusterName)
-		if err != nil {
-			klog.Warningf("Failed to convert event to point: %v", err)
-		}
-		if sink.esSvc.UseNamespace {
-			namespace = event.Namespace
-		}
-		err = sink.saveData(point.LastOccurrenceTimestamp, namespace, []interface{}{*point})
-		if err != nil {
-			klog.Warningf("Failed to export data to ElasticSearch sink: %v", err)
-		}
-	}
-
-	err := sink.flushData()
-	if err != nil {
-		klog.Warningf("Failed to flushing data to ElasticSearch sink: %v", err)
-	}
-	if sink.errorRate != nil {
-		sink.errorRate.Set(float64(sink.esSvc.ErrorStats()))
-	}
+	_ = "STUB: not implemented"
+	return
 }
 
-func (sink *elasticSearchSink) Name() string {
-	return "ElasticSearch Sink"
-}
+func (sink *elasticSearchSink) Name() string { _ = "STUB: not implemented"; return "" }
 
 func (sink *elasticSearchSink) Stop() {
+	_ = "STUB: not implemented"
 	// nothing needs to be done.
+	return
 }
 
 func NewElasticSearchSink(uri *url.URL) (event_core.EventSink, error) {
-	var esSink elasticSearchSink
-	esSvc, err := esCommon.CreateElasticSearchService(uri)
-	if err != nil {
-		klog.Warning("Failed to config ElasticSearch")
-		return nil, err
-	}
-
-	esSink.esSvc = *esSvc
-	esSink.saveData = func(date time.Time, namespace string, sinkData []interface{}) error {
-		return esSvc.SaveData(date, typeName, namespace, sinkData)
-	}
-	esSink.flushData = func() error {
-		return esSvc.FlushData()
-	}
-
-	esSink.errorRate = prometheus.NewGauge(
-		prometheus.GaugeOpts{
-			Namespace: "eventer",
-			Subsystem: "elasticsearch",
-			Name:      "errors",
-			Help:      "Bulk processing errors.",
-		})
-	prometheus.MustRegister(esSink.errorRate)
-
-	klog.V(2).Info("ElasticSearch sink setup successfully")
-	return &esSink, nil
+	_ = "STUB: not implemented"
+	return *new(event_core.EventSink), nil
 }

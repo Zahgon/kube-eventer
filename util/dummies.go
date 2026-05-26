@@ -29,44 +29,19 @@ type DummySink struct {
 	latency     time.Duration
 }
 
-func (this *DummySink) Name() string {
-	return this.name
-}
-func (this *DummySink) ExportEvents(*core.EventBatch) {
-	this.mutex.Lock()
-	this.exportCount++
-	defer this.mutex.Unlock()
+func (this *DummySink) Name() string { _ = "STUB: not implemented"; return "" }
 
-	time.Sleep(this.latency)
-}
+func (this *DummySink) ExportEvents(*core.EventBatch) { _ = "STUB: not implemented"; return }
 
-func (this *DummySink) Stop() {
-	this.mutex.Lock()
-	this.stopped = true
-	defer this.mutex.Unlock()
+func (this *DummySink) Stop() { _ = "STUB: not implemented"; return }
 
-	time.Sleep(this.latency)
-}
+func (this *DummySink) IsStopped() bool { _ = "STUB: not implemented"; return false }
 
-func (this *DummySink) IsStopped() bool {
-	this.mutex.Lock()
-	defer this.mutex.Unlock()
-	return this.stopped
-}
-
-func (this *DummySink) GetExportCount() int {
-	this.mutex.Lock()
-	defer this.mutex.Unlock()
-	return this.exportCount
-}
+func (this *DummySink) GetExportCount() int { _ = "STUB: not implemented"; return 0 }
 
 func NewDummySink(name string, latency time.Duration) *DummySink {
-	return &DummySink{
-		name:        name,
-		latency:     latency,
-		exportCount: 0,
-		stopped:     false,
-	}
+	_ = "STUB: not implemented"
+	return nil
 }
 
 type DummyEventSource struct {
@@ -74,11 +49,11 @@ type DummyEventSource struct {
 }
 
 func (this *DummyEventSource) GetNewEvents() *core.EventBatch {
-	return this.eventBatch
+	_ = "STUB: not implemented"
+	return nil
 }
 
 func NewDummySource(eventBatch *core.EventBatch) *DummyEventSource {
-	return &DummyEventSource{
-		eventBatch: eventBatch,
-	}
+	_ = "STUB: not implemented"
+	return nil
 }

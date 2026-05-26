@@ -6,9 +6,11 @@
 Package openapiextension_v1 is a generated protocol buffer package.
 
 It is generated from these files:
+
 	extension.proto
 
 It has these top-level messages:
+
 	Version
 	ExtensionHandlerRequest
 	ExtensionHandlerResponse
@@ -16,10 +18,15 @@ It has these top-level messages:
 */
 package openapiextension_v1
 
-import proto "github.com/golang/protobuf/proto"
-import fmt "fmt"
-import math "math"
-import google_protobuf "github.com/golang/protobuf/ptypes/any"
+import (
+	fmt "fmt"
+
+	proto "github.com/golang/protobuf/proto"
+
+	math "math"
+
+	google_protobuf "github.com/golang/protobuf/ptypes/any"
+)
 
 // Reference imports to suppress errors if they are not otherwise used.
 var _ = proto.Marshal

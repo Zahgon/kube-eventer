@@ -15,38 +15,22 @@
 package logsink
 
 import (
-	"bytes"
-	"fmt"
-	"github.com/AliyunContainerService/kube-eventer/util"
-
 	"github.com/AliyunContainerService/kube-eventer/core"
-	"k8s.io/klog/v2"
 )
 
 type LogSink struct {
 }
 
-func (this *LogSink) Name() string {
-	return "LogSink"
-}
+func (this *LogSink) Name() string { _ = "STUB: not implemented"; return "" }
 
 func (this *LogSink) Stop() {
+	_ = "STUB: not implemented"
 	// Do nothing.
+	return
 }
 
-func batchToString(batch *core.EventBatch) string {
-	var buffer bytes.Buffer
-	buffer.WriteString(fmt.Sprintf("EventBatch     Timestamp: %s\n", batch.Timestamp))
-	for _, event := range batch.Events {
-		buffer.WriteString(fmt.Sprintf("%++v   %s (cnt:%d): %s\n", event, util.GetLastEventTimestamp(event), event.Count, event.Message))
-	}
-	return buffer.String()
-}
+func batchToString(batch *core.EventBatch) string { _ = "STUB: not implemented"; return "" }
 
-func (this *LogSink) ExportEvents(batch *core.EventBatch) {
-	klog.Info(batchToString(batch))
-}
+func (this *LogSink) ExportEvents(batch *core.EventBatch) { _ = "STUB: not implemented"; return }
 
-func CreateLogSink() (*LogSink, error) {
-	return &LogSink{}, nil
-}
+func CreateLogSink() (*LogSink, error) { _ = "STUB: not implemented"; return nil, nil }

@@ -15,11 +15,8 @@
 package honeycomb
 
 import (
-	"github.com/AliyunContainerService/kube-eventer/util"
 	"net/url"
 	"sync"
-
-	"k8s.io/klog/v2"
 
 	honeycomb_common "github.com/AliyunContainerService/kube-eventer/common/honeycomb"
 	event_core "github.com/AliyunContainerService/kube-eventer/core"
@@ -44,54 +41,18 @@ type exportedData struct {
 	Message         string `json:"message"`
 }
 
-func getExportedData(e *kube_api.Event) *exportedData {
-	return &exportedData{
-		Namespace:       e.InvolvedObject.Namespace,
-		Kind:            e.InvolvedObject.Kind,
-		Name:            e.InvolvedObject.Name,
-		SubObject:       e.InvolvedObject.FieldPath,
-		SourceComponent: e.Source.Component,
-		SourceHost:      e.Source.Host,
-		Count:           e.Count,
-		Reason:          e.Reason,
-		Type:            e.Type,
-		Message:         e.Message,
-	}
-}
+func getExportedData(e *kube_api.Event) *exportedData { _ = "STUB: not implemented"; return nil }
 
 func (sink *honeycombSink) ExportEvents(eventBatch *event_core.EventBatch) {
-	sink.Lock()
-	defer sink.Unlock()
-	exportedBatch := make(honeycomb_common.Batch, len(eventBatch.Events))
-	for i, event := range eventBatch.Events {
-		data := getExportedData(event)
-		exportedBatch[i] = &honeycomb_common.BatchPoint{
-			Data:      data,
-			Timestamp: util.GetLastEventTimestamp(event).UTC(),
-		}
-	}
-	err := sink.client.SendBatch(exportedBatch)
-	if err != nil {
-		klog.Warningf("Failed to send event: %v", err)
-		return
-	}
+	_ = "STUB: not implemented"
+	return
 }
 
-func (sink *honeycombSink) Stop() {}
+func (sink *honeycombSink) Stop() { _ = "STUB: not implemented"; return }
 
-func (sink *honeycombSink) Name() string {
-	return "Honeycomb Sink"
-}
+func (sink *honeycombSink) Name() string { _ = "STUB: not implemented"; return "" }
 
 func NewHoneycombSink(uri *url.URL) (event_core.EventSink, error) {
-	client, err := honeycomb_common.NewClient(uri)
-	if err != nil {
-		return nil, err
-	}
-	sink := &honeycombSink{
-		client: client,
-	}
-
-	return sink, nil
-
+	_ = "STUB: not implemented"
+	return *new(event_core.EventSink), nil
 }

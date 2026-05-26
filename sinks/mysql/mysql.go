@@ -15,14 +15,12 @@
 package mysql
 
 import (
-	"encoding/json"
-	mysql_common "github.com/AliyunContainerService/kube-eventer/common/mysql"
-	"github.com/AliyunContainerService/kube-eventer/core"
-	"github.com/AliyunContainerService/kube-eventer/util"
-	kube_api "k8s.io/api/core/v1"
-	"k8s.io/klog/v2"
 	"net/url"
 	"sync"
+
+	mysql_common "github.com/AliyunContainerService/kube-eventer/common/mysql"
+	"github.com/AliyunContainerService/kube-eventer/core"
+	kube_api "k8s.io/api/core/v1"
 )
 
 // SaveDataFunc is a pluggable function to enforce limits on the object
@@ -42,111 +40,28 @@ const (
 	maxSendBatchSize = 1
 )
 
-func (sink *mysqlSink) createDatabase() error {
-
-	if sink.mysqlSvc == nil {
-		mysqlSvc, err := mysql_common.NewMysqlClient(sink.uri)
-		if err != nil {
-			return err
-		}
-		sink.mysqlSvc = mysqlSvc
-	}
-
-	return nil
-}
+func (sink *mysqlSink) createDatabase() error { _ = "STUB: not implemented"; return nil }
 
 // Generate point value for event
 func getEventValue(event *kube_api.Event) (string, error) {
+	_ = "STUB: not implemented"
 	// TODO: check whether indenting is required.
-	bytes, err := json.MarshalIndent(event, "", " ")
-	if err != nil {
-		return "", err
-	}
-	return string(bytes), nil
+	return "", nil
 }
 
 func eventToPoint(event *kube_api.Event) (*mysql_common.MysqlKubeEventPoint, error) {
-
-	value, err := getEventValue(event)
-	if err != nil {
-		return nil, err
-	}
-	klog.V(9).Infof(value)
-
-	point := mysql_common.MysqlKubeEventPoint{
-		Name:                     event.InvolvedObject.Name,
-		Namespace:                event.InvolvedObject.Namespace,
-		EventID:                  string(event.UID),
-		Type:                     event.Type,
-		Reason:                   event.Reason,
-		Message:                  event.Message,
-		Kind:                     event.InvolvedObject.Kind,
-		FirstOccurrenceTimestamp: event.FirstTimestamp.Time.String(),
-		LastOccurrenceTimestamp:  util.GetLastEventTimestamp(event).String(),
-	}
-
-	return &point, nil
-
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
-func (sink *mysqlSink) ExportEvents(eventBatch *core.EventBatch) {
+func (sink *mysqlSink) ExportEvents(eventBatch *core.EventBatch) { _ = "STUB: not implemented"; return }
 
-	sink.Lock()
-	defer sink.Unlock()
+func (sink *mysqlSink) Name() string { _ = "STUB: not implemented"; return "" }
 
-	dataPoints := make([]mysql_common.MysqlKubeEventPoint, 0, 10)
-	for _, event := range eventBatch.Events {
-
-		point, err := eventToPoint(event)
-		if err != nil {
-			klog.Warningf("Failed to convert event to point: %v", err)
-			klog.Warningf("Skip this event")
-			continue
-		}
-
-		dataPoints = append(dataPoints, *point)
-		if len(dataPoints) >= maxSendBatchSize {
-			err = sink.saveData([]interface{}{*point})
-			if err != nil {
-				klog.Warningf("Failed to export data to Mysql sink: %v", err)
-			}
-			dataPoints = make([]mysql_common.MysqlKubeEventPoint, 0, 1)
-		}
-
-	}
-	klog.V(1).Infof("sinking %v events to mysql success.", len(eventBatch.Events))
-}
-
-func (sink *mysqlSink) Name() string {
-	return "MySQL Sink"
-}
-
-func (sink *mysqlSink) Stop() {
-	defer sink.closeDB()
-}
+func (sink *mysqlSink) Stop() { _ = "STUB: not implemented"; return }
 
 // Returns a thread-safe implementation of core.EventSink for InfluxDB.
 func CreateMysqlSink(uri *url.URL) (core.EventSink, error) {
-
-	var mySink mysqlSink
-
-	mysqlSvc, err := mysql_common.NewMysqlClient(uri)
-	if err != nil {
-		return nil, err
-	}
-
-	mySink.mysqlSvc = mysqlSvc
-	mySink.saveData = func(sinkData []interface{}) error {
-		return mysqlSvc.SaveData(sinkData)
-	}
-	mySink.flushData = func() error {
-		return mysqlSvc.FlushData()
-	}
-	mySink.closeDB = func() error {
-		return mysqlSvc.CloseDB()
-	}
-	mySink.uri = uri
-
-	klog.V(3).Info("Mysql Sink setup successfully")
-	return &mySink, nil
+	_ = "STUB: not implemented"
+	return *new(core.EventSink), nil
 }

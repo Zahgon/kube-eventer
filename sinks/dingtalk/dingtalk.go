@@ -15,21 +15,11 @@
 package dingtalk
 
 import (
-	"bytes"
-	"crypto/hmac"
-	"crypto/sha256"
-	"encoding/base64"
-	"encoding/json"
-	"fmt"
-	"github.com/AliyunContainerService/kube-eventer/util"
-	"net/http"
 	"net/url"
-	"strings"
-	"time"
 
 	"github.com/AliyunContainerService/kube-eventer/core"
 	"k8s.io/api/core/v1"
-	"k8s.io/klog/v2"
+	v1 "k8s.io/api/core/v1"
 )
 
 const (
@@ -95,211 +85,54 @@ type DingTalkSink struct {
 	Region     string
 }
 
-func (d *DingTalkSink) Name() string {
-	return DINGTALK_SINK
-}
+func (d *DingTalkSink) Name() string { _ = "STUB: not implemented"; return "" }
 
 func (d *DingTalkSink) Stop() {
-	//do nothing
+	_ = "STUB: not implemented"
+	// do nothing
+	return
 }
 
-func (d *DingTalkSink) ExportEvents(batch *core.EventBatch) {
-	for _, event := range batch.Events {
-		if d.isEventLevelDangerous(event.Type) {
-			d.Ding(event)
-			// add threshold
-			time.Sleep(time.Millisecond * 50)
-		}
-	}
-}
+func (d *DingTalkSink) ExportEvents(batch *core.EventBatch) { _ = "STUB: not implemented"; return }
+
+// add threshold
 
 func (d *DingTalkSink) isEventLevelDangerous(level string) bool {
-	score := getLevel(level)
-	if score >= d.Level {
-		return true
-	}
+	_ = "STUB: not implemented"
 	return false
 }
 
-func (d *DingTalkSink) Ding(event *v1.Event) {
-	value := url.Values{}
+func (d *DingTalkSink) Ding(event *v1.Event) { _ = "STUB: not implemented"; return }
 
-	if d.Namespaces != nil {
-		skip := true
-		for _, namespace := range d.Namespaces {
-			if namespace == event.Namespace {
-				skip = false
-				break
-			}
-		}
-		if skip {
-			return
-		}
-	}
+func getLevel(level string) int { _ = "STUB: not implemented"; return 0 }
 
-	if d.Kinds != nil {
-		skip := true
-		for _, kind := range d.Kinds {
-			if kind == event.InvolvedObject.Kind {
-				skip = false
-				break
-			}
-		}
-		if skip {
-			return
-		}
-	}
-
-	msg := createMsgFromEvent(d, event)
-	if msg == nil {
-		klog.Warningf("failed to create msg from event,because of %v", event)
-		return
-	}
-
-	msg_bytes, err := json.Marshal(msg)
-	if err != nil {
-		klog.Warningf("failed to marshal msg %v", msg)
-		return
-	}
-
-	value.Set("access_token", d.Token)
-	if d.Secret != "" {
-		t := time.Now().UnixNano() / 1e6
-		value.Set("timestamp", fmt.Sprintf("%d", t))
-		value.Set("sign", sign(t, d.Secret))
-	}
-
-	b := bytes.NewBuffer(msg_bytes)
-	request, err := http.NewRequest(http.MethodPost, fmt.Sprintf("https://%s", d.Endpoint), b)
-	if err != nil {
-		klog.Errorf("failed to create http request")
-		return
-	}
-	request.URL.RawQuery = value.Encode()
-	request.Header.Add("Content-Type", "application/json;charset=utf-8")
-	resp, err := (&http.Client{}).Do(request)
-	if err != nil {
-		klog.Errorf("failed to send msg to dingtalk. error: %s", err.Error())
-		return
-	}
-	defer resp.Body.Close()
-	if resp != nil && resp.StatusCode != http.StatusOK {
-		klog.Errorf("failed to send msg to dingtalk, because the response code is %d", resp.StatusCode)
-		return
-	}
-}
-
-func getLevel(level string) int {
-	score := 0
-	switch level {
-	case v1.EventTypeWarning:
-		score += 2
-	case v1.EventTypeNormal:
-		score += 1
-	default:
-		//score will remain 0
-	}
-	return score
-}
+//score will remain 0
 
 func createMsgFromEvent(d *DingTalkSink, event *v1.Event) *DingTalkMsg {
-	msg := &DingTalkMsg{}
-	msg.MsgType = d.MsgType
-
-	switch msg.MsgType {
-	//https://open-doc.dingtalk.com/microapp/serverapi2/ye8tup#-6
-	case MARKDOWN_MSG_TYPE:
-		markdownCreator := NewMarkdownMsgBuilder(d.ClusterID, d.Region, event)
-		markdownCreator.AddNodeName(event.Source.Host)
-		markdownCreator.AddLabels(d.Labels)
-		msg.Markdown = DingTalkMarkdown{
-			//title 加不加其实没所谓,最终不会显示
-			Title: fmt.Sprintf("Kubernetes(ID:%s) Event", d.ClusterID),
-			Text:  markdownCreator.Build(),
-		}
-		break
-
-	default:
-		//默认按文本模式推送
-		template := MSG_TEMPLATE
-		if len(d.Labels) > 0 {
-			for _, label := range d.Labels {
-				template = fmt.Sprintf(LABEL_TEMPLATE, label) + template
-			}
-		}
-		msg.Text = DingTalkText{
-			Content: fmt.Sprintf(template, event.Type, event.InvolvedObject.Kind, event.Namespace, event.Name, event.Reason, util.GetLastEventTimestamp(event).Format(time.DateTime), event.Message),
-		}
-		break
-	}
-
-	return msg
-}
-
-func NewDingTalkSink(uri *url.URL) (*DingTalkSink, error) {
-	d := &DingTalkSink{
-		Level: WARNING,
-	}
-	if len(uri.Host) > 0 {
-		d.Endpoint = uri.Host + uri.Path
-	}
-	opts := uri.Query()
-
-	if len(opts["access_token"]) >= 1 {
-		d.Token = opts["access_token"][0]
-	} else {
-		return nil, fmt.Errorf("you must provide dingtalk bot access_token")
-	}
-
-	if len(opts["level"]) >= 1 {
-		d.Level = getLevel(opts["level"][0])
-	}
-	// get ding talk sign
-	if len(opts["sign"]) >= 1 {
-		d.Secret = opts["sign"][0]
-	}
-	//add extra labels
-	if len(opts["label"]) >= 1 {
-		d.Labels = opts["label"]
-	}
-
-	if msgType := opts["msg_type"]; len(msgType) >= 1 {
-		d.MsgType = msgType[0]
-	} else {
-		//向下兼容,覆盖以前的版本,没有这个参数的情况
-		d.MsgType = DEFAULT_MSG_TYPE
-	}
-
-	if clusterID := opts["cluster_id"]; len(clusterID) >= 1 {
-		d.ClusterID = clusterID[0]
-	}
-
-	if region := opts["region"]; len(region) >= 1 {
-		d.Region = region[0]
-	}
-
-	d.Namespaces = getValues(opts["namespaces"])
-	// kinds:https://github.com/kubernetes/community/blob/master/contributors/devel/sig-architecture/api-conventions.md#lists-and-simple-kinds
-	// such as node,pod,component and so on
-	d.Kinds = getValues(opts["kinds"])
-
-	return d, nil
-}
-
-func getValues(o []string) []string {
-	if len(o) >= 1 {
-		if len(o[0]) == 0 {
-			return nil
-		}
-		return strings.Split(o[0], ",")
-	}
+	_ = "STUB: not implemented"
 	return nil
 }
 
-func sign(t int64, secret string) string {
-	strToHash := fmt.Sprintf("%d\n%s", t, secret)
-	hmac256 := hmac.New(sha256.New, []byte(secret))
-	hmac256.Write([]byte(strToHash))
-	data := hmac256.Sum(nil)
-	return base64.StdEncoding.EncodeToString(data)
+//https://open-doc.dingtalk.com/microapp/serverapi2/ye8tup#-6
+
+//title 加不加其实没所谓,最终不会显示
+
+//默认按文本模式推送
+
+func NewDingTalkSink(uri *url.URL) (*DingTalkSink, error) {
+	_ = "STUB: not implemented"
+	return nil, nil
 }
+
+// get ding talk sign
+
+//add extra labels
+
+//向下兼容,覆盖以前的版本,没有这个参数的情况
+
+// kinds:https://github.com/kubernetes/community/blob/master/contributors/devel/sig-architecture/api-conventions.md#lists-and-simple-kinds
+// such as node,pod,component and so on
+
+func getValues(o []string) []string { _ = "STUB: not implemented"; return nil }
+
+func sign(t int64, secret string) string { _ = "STUB: not implemented"; return "" }

@@ -225,7 +225,7 @@ func (b *Broker) Connected() (bool, error) {
 	return b.conn != nil, b.connErr
 }
 
-//Close closes the broker resources
+// Close closes the broker resources
 func (b *Broker) Close() error {
 	b.lock.Lock()
 	defer b.lock.Unlock()
@@ -278,7 +278,7 @@ func (b *Broker) Rack() string {
 	return *b.rack
 }
 
-//GetMetadata send a metadata request and returns a metadata response or error
+// GetMetadata send a metadata request and returns a metadata response or error
 func (b *Broker) GetMetadata(request *MetadataRequest) (*MetadataResponse, error) {
 	response := new(MetadataResponse)
 
@@ -291,7 +291,7 @@ func (b *Broker) GetMetadata(request *MetadataRequest) (*MetadataResponse, error
 	return response, nil
 }
 
-//GetConsumerMetadata send a consumer metadata request and returns a consumer metadata response or error
+// GetConsumerMetadata send a consumer metadata request and returns a consumer metadata response or error
 func (b *Broker) GetConsumerMetadata(request *ConsumerMetadataRequest) (*ConsumerMetadataResponse, error) {
 	response := new(ConsumerMetadataResponse)
 
@@ -304,7 +304,7 @@ func (b *Broker) GetConsumerMetadata(request *ConsumerMetadataRequest) (*Consume
 	return response, nil
 }
 
-//FindCoordinator sends a find coordinate request and returns a response or error
+// FindCoordinator sends a find coordinate request and returns a response or error
 func (b *Broker) FindCoordinator(request *FindCoordinatorRequest) (*FindCoordinatorResponse, error) {
 	response := new(FindCoordinatorResponse)
 
@@ -317,7 +317,7 @@ func (b *Broker) FindCoordinator(request *FindCoordinatorRequest) (*FindCoordina
 	return response, nil
 }
 
-//GetAvailableOffsets return an offset response or error
+// GetAvailableOffsets return an offset response or error
 func (b *Broker) GetAvailableOffsets(request *OffsetRequest) (*OffsetResponse, error) {
 	response := new(OffsetResponse)
 
@@ -330,7 +330,7 @@ func (b *Broker) GetAvailableOffsets(request *OffsetRequest) (*OffsetResponse, e
 	return response, nil
 }
 
-//Produce returns a produce response or error
+// Produce returns a produce response or error
 func (b *Broker) Produce(request *ProduceRequest) (*ProduceResponse, error) {
 	var (
 		response *ProduceResponse
@@ -351,7 +351,7 @@ func (b *Broker) Produce(request *ProduceRequest) (*ProduceResponse, error) {
 	return response, nil
 }
 
-//Fetch returns a FetchResponse or error
+// Fetch returns a FetchResponse or error
 func (b *Broker) Fetch(request *FetchRequest) (*FetchResponse, error) {
 	response := new(FetchResponse)
 
@@ -363,7 +363,7 @@ func (b *Broker) Fetch(request *FetchRequest) (*FetchResponse, error) {
 	return response, nil
 }
 
-//CommitOffset return an Offset commit reponse or error
+// CommitOffset return an Offset commit reponse or error
 func (b *Broker) CommitOffset(request *OffsetCommitRequest) (*OffsetCommitResponse, error) {
 	response := new(OffsetCommitResponse)
 
@@ -375,7 +375,7 @@ func (b *Broker) CommitOffset(request *OffsetCommitRequest) (*OffsetCommitRespon
 	return response, nil
 }
 
-//FetchOffset returns an offset fetch response or error
+// FetchOffset returns an offset fetch response or error
 func (b *Broker) FetchOffset(request *OffsetFetchRequest) (*OffsetFetchResponse, error) {
 	response := new(OffsetFetchResponse)
 
@@ -387,7 +387,7 @@ func (b *Broker) FetchOffset(request *OffsetFetchRequest) (*OffsetFetchResponse,
 	return response, nil
 }
 
-//JoinGroup returns a join group response or error
+// JoinGroup returns a join group response or error
 func (b *Broker) JoinGroup(request *JoinGroupRequest) (*JoinGroupResponse, error) {
 	response := new(JoinGroupResponse)
 
@@ -399,7 +399,7 @@ func (b *Broker) JoinGroup(request *JoinGroupRequest) (*JoinGroupResponse, error
 	return response, nil
 }
 
-//SyncGroup returns a sync group response or error
+// SyncGroup returns a sync group response or error
 func (b *Broker) SyncGroup(request *SyncGroupRequest) (*SyncGroupResponse, error) {
 	response := new(SyncGroupResponse)
 
@@ -411,7 +411,7 @@ func (b *Broker) SyncGroup(request *SyncGroupRequest) (*SyncGroupResponse, error
 	return response, nil
 }
 
-//LeaveGroup return a leave group response or error
+// LeaveGroup return a leave group response or error
 func (b *Broker) LeaveGroup(request *LeaveGroupRequest) (*LeaveGroupResponse, error) {
 	response := new(LeaveGroupResponse)
 
@@ -423,7 +423,7 @@ func (b *Broker) LeaveGroup(request *LeaveGroupRequest) (*LeaveGroupResponse, er
 	return response, nil
 }
 
-//Heartbeat returns a heartbeat response or error
+// Heartbeat returns a heartbeat response or error
 func (b *Broker) Heartbeat(request *HeartbeatRequest) (*HeartbeatResponse, error) {
 	response := new(HeartbeatResponse)
 
@@ -435,7 +435,7 @@ func (b *Broker) Heartbeat(request *HeartbeatRequest) (*HeartbeatResponse, error
 	return response, nil
 }
 
-//ListGroups return a list group response or error
+// ListGroups return a list group response or error
 func (b *Broker) ListGroups(request *ListGroupsRequest) (*ListGroupsResponse, error) {
 	response := new(ListGroupsResponse)
 
@@ -447,7 +447,7 @@ func (b *Broker) ListGroups(request *ListGroupsRequest) (*ListGroupsResponse, er
 	return response, nil
 }
 
-//DescribeGroups return describe group response or error
+// DescribeGroups return describe group response or error
 func (b *Broker) DescribeGroups(request *DescribeGroupsRequest) (*DescribeGroupsResponse, error) {
 	response := new(DescribeGroupsResponse)
 
@@ -459,7 +459,7 @@ func (b *Broker) DescribeGroups(request *DescribeGroupsRequest) (*DescribeGroups
 	return response, nil
 }
 
-//ApiVersions return api version response or error
+// ApiVersions return api version response or error
 func (b *Broker) ApiVersions(request *ApiVersionsRequest) (*ApiVersionsResponse, error) {
 	response := new(ApiVersionsResponse)
 
@@ -471,7 +471,7 @@ func (b *Broker) ApiVersions(request *ApiVersionsRequest) (*ApiVersionsResponse,
 	return response, nil
 }
 
-//CreateTopics send a create topic request and returns create topic response
+// CreateTopics send a create topic request and returns create topic response
 func (b *Broker) CreateTopics(request *CreateTopicsRequest) (*CreateTopicsResponse, error) {
 	response := new(CreateTopicsResponse)
 
@@ -483,7 +483,7 @@ func (b *Broker) CreateTopics(request *CreateTopicsRequest) (*CreateTopicsRespon
 	return response, nil
 }
 
-//DeleteTopics sends a delete topic request and returns delete topic response
+// DeleteTopics sends a delete topic request and returns delete topic response
 func (b *Broker) DeleteTopics(request *DeleteTopicsRequest) (*DeleteTopicsResponse, error) {
 	response := new(DeleteTopicsResponse)
 
@@ -495,8 +495,8 @@ func (b *Broker) DeleteTopics(request *DeleteTopicsRequest) (*DeleteTopicsRespon
 	return response, nil
 }
 
-//CreatePartitions sends a create partition request and returns create
-//partitions response or error
+// CreatePartitions sends a create partition request and returns create
+// partitions response or error
 func (b *Broker) CreatePartitions(request *CreatePartitionsRequest) (*CreatePartitionsResponse, error) {
 	response := new(CreatePartitionsResponse)
 
@@ -508,8 +508,8 @@ func (b *Broker) CreatePartitions(request *CreatePartitionsRequest) (*CreatePart
 	return response, nil
 }
 
-//DeleteRecords send a request to delete records and return delete record
-//response or error
+// DeleteRecords send a request to delete records and return delete record
+// response or error
 func (b *Broker) DeleteRecords(request *DeleteRecordsRequest) (*DeleteRecordsResponse, error) {
 	response := new(DeleteRecordsResponse)
 
@@ -521,7 +521,7 @@ func (b *Broker) DeleteRecords(request *DeleteRecordsRequest) (*DeleteRecordsRes
 	return response, nil
 }
 
-//DescribeAcls sends a describe acl request and returns a response or error
+// DescribeAcls sends a describe acl request and returns a response or error
 func (b *Broker) DescribeAcls(request *DescribeAclsRequest) (*DescribeAclsResponse, error) {
 	response := new(DescribeAclsResponse)
 
@@ -533,7 +533,7 @@ func (b *Broker) DescribeAcls(request *DescribeAclsRequest) (*DescribeAclsRespon
 	return response, nil
 }
 
-//CreateAcls sends a create acl request and returns a response or error
+// CreateAcls sends a create acl request and returns a response or error
 func (b *Broker) CreateAcls(request *CreateAclsRequest) (*CreateAclsResponse, error) {
 	response := new(CreateAclsResponse)
 
@@ -545,7 +545,7 @@ func (b *Broker) CreateAcls(request *CreateAclsRequest) (*CreateAclsResponse, er
 	return response, nil
 }
 
-//DeleteAcls sends a delete acl request and returns a response or error
+// DeleteAcls sends a delete acl request and returns a response or error
 func (b *Broker) DeleteAcls(request *DeleteAclsRequest) (*DeleteAclsResponse, error) {
 	response := new(DeleteAclsResponse)
 
@@ -557,7 +557,7 @@ func (b *Broker) DeleteAcls(request *DeleteAclsRequest) (*DeleteAclsResponse, er
 	return response, nil
 }
 
-//InitProducerID sends an init producer request and returns a response or error
+// InitProducerID sends an init producer request and returns a response or error
 func (b *Broker) InitProducerID(request *InitProducerIDRequest) (*InitProducerIDResponse, error) {
 	response := new(InitProducerIDResponse)
 
@@ -569,8 +569,8 @@ func (b *Broker) InitProducerID(request *InitProducerIDRequest) (*InitProducerID
 	return response, nil
 }
 
-//AddPartitionsToTxn send a request to add partition to txn and returns
-//a response or error
+// AddPartitionsToTxn send a request to add partition to txn and returns
+// a response or error
 func (b *Broker) AddPartitionsToTxn(request *AddPartitionsToTxnRequest) (*AddPartitionsToTxnResponse, error) {
 	response := new(AddPartitionsToTxnResponse)
 
@@ -582,8 +582,8 @@ func (b *Broker) AddPartitionsToTxn(request *AddPartitionsToTxnRequest) (*AddPar
 	return response, nil
 }
 
-//AddOffsetsToTxn sends a request to add offsets to txn and returns a response
-//or error
+// AddOffsetsToTxn sends a request to add offsets to txn and returns a response
+// or error
 func (b *Broker) AddOffsetsToTxn(request *AddOffsetsToTxnRequest) (*AddOffsetsToTxnResponse, error) {
 	response := new(AddOffsetsToTxnResponse)
 
@@ -595,7 +595,7 @@ func (b *Broker) AddOffsetsToTxn(request *AddOffsetsToTxnRequest) (*AddOffsetsTo
 	return response, nil
 }
 
-//EndTxn sends a request to end txn and returns a response or error
+// EndTxn sends a request to end txn and returns a response or error
 func (b *Broker) EndTxn(request *EndTxnRequest) (*EndTxnResponse, error) {
 	response := new(EndTxnResponse)
 
@@ -607,8 +607,8 @@ func (b *Broker) EndTxn(request *EndTxnRequest) (*EndTxnResponse, error) {
 	return response, nil
 }
 
-//TxnOffsetCommit sends a request to commit transaction offsets and returns
-//a response or error
+// TxnOffsetCommit sends a request to commit transaction offsets and returns
+// a response or error
 func (b *Broker) TxnOffsetCommit(request *TxnOffsetCommitRequest) (*TxnOffsetCommitResponse, error) {
 	response := new(TxnOffsetCommitResponse)
 
@@ -620,8 +620,8 @@ func (b *Broker) TxnOffsetCommit(request *TxnOffsetCommitRequest) (*TxnOffsetCom
 	return response, nil
 }
 
-//DescribeConfigs sends a request to describe config and returns a response or
-//error
+// DescribeConfigs sends a request to describe config and returns a response or
+// error
 func (b *Broker) DescribeConfigs(request *DescribeConfigsRequest) (*DescribeConfigsResponse, error) {
 	response := new(DescribeConfigsResponse)
 
@@ -633,7 +633,7 @@ func (b *Broker) DescribeConfigs(request *DescribeConfigsRequest) (*DescribeConf
 	return response, nil
 }
 
-//AlterConfigs sends a request to alter config and return a response or error
+// AlterConfigs sends a request to alter config and return a response or error
 func (b *Broker) AlterConfigs(request *AlterConfigsRequest) (*AlterConfigsResponse, error) {
 	response := new(AlterConfigsResponse)
 
@@ -645,7 +645,7 @@ func (b *Broker) AlterConfigs(request *AlterConfigsRequest) (*AlterConfigsRespon
 	return response, nil
 }
 
-//DeleteGroups sends a request to delete groups and returns a response or error
+// DeleteGroups sends a request to delete groups and returns a response or error
 func (b *Broker) DeleteGroups(request *DeleteGroupsRequest) (*DeleteGroupsResponse, error) {
 	response := new(DeleteGroupsResponse)
 
@@ -913,14 +913,14 @@ func (b *Broker) sendAndReceiveSASLHandshake(saslType SASLMechanism, version int
 // In SASL Plain, Kafka expects the auth header to be in the following format
 // Message format (from https://tools.ietf.org/html/rfc4616):
 //
-//   message   = [authzid] UTF8NUL authcid UTF8NUL passwd
-//   authcid   = 1*SAFE ; MUST accept up to 255 octets
-//   authzid   = 1*SAFE ; MUST accept up to 255 octets
-//   passwd    = 1*SAFE ; MUST accept up to 255 octets
-//   UTF8NUL   = %x00 ; UTF-8 encoded NUL character
+//	message   = [authzid] UTF8NUL authcid UTF8NUL passwd
+//	authcid   = 1*SAFE ; MUST accept up to 255 octets
+//	authzid   = 1*SAFE ; MUST accept up to 255 octets
+//	passwd    = 1*SAFE ; MUST accept up to 255 octets
+//	UTF8NUL   = %x00 ; UTF-8 encoded NUL character
 //
-//   SAFE      = UTF1 / UTF2 / UTF3 / UTF4
-//                  ;; any UTF-8 encoded Unicode character except NUL
+//	SAFE      = UTF1 / UTF2 / UTF3 / UTF4
+//	               ;; any UTF-8 encoded Unicode character except NUL
 //
 // With SASL v0 handshake and auth then:
 // When credentials are valid, Kafka returns a 4 byte array of null characters.

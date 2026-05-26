@@ -15,18 +15,10 @@
 package honeycomb
 
 import (
-	"bytes"
-	"encoding/json"
-	"errors"
 	"io"
-	"io/ioutil"
 	"net/http"
 	"net/url"
-	"os"
-	"path"
 	"time"
-
-	"k8s.io/klog/v2"
 )
 
 type config struct {
@@ -35,33 +27,7 @@ type config struct {
 	WriteKey string
 }
 
-func BuildConfig(uri *url.URL) (*config, error) {
-	opts := uri.Query()
-
-	config := &config{
-		WriteKey: os.Getenv("HONEYCOMB_WRITEKEY"),
-		APIHost:  "https://api.honeycomb.io/",
-		Dataset:  "heapster",
-	}
-
-	if len(opts["writekey"]) >= 1 {
-		config.WriteKey = opts["writekey"][0]
-	}
-
-	if len(opts["apihost"]) >= 1 {
-		config.APIHost = opts["apihost"][0]
-	}
-
-	if len(opts["dataset"]) >= 1 {
-		config.Dataset = opts["dataset"][0]
-	}
-
-	if config.WriteKey == "" {
-		return nil, errors.New("Failed to find honeycomb API write key")
-	}
-
-	return config, nil
-}
+func BuildConfig(uri *url.URL) (*config, error) { _ = "STUB: not implemented"; return nil, nil }
 
 type Client interface {
 	SendBatch(batch Batch) error
@@ -72,13 +38,7 @@ type HoneycombClient struct {
 	httpClient http.Client
 }
 
-func NewClient(uri *url.URL) (*HoneycombClient, error) {
-	config, err := BuildConfig(uri)
-	if err != nil {
-		return nil, err
-	}
-	return &HoneycombClient{config: *config}, nil
-}
+func NewClient(uri *url.URL) (*HoneycombClient, error) { _ = "STUB: not implemented"; return nil, nil }
 
 type BatchPoint struct {
 	Data      interface{}
@@ -87,39 +47,8 @@ type BatchPoint struct {
 
 type Batch []*BatchPoint
 
-func (c *HoneycombClient) SendBatch(batch Batch) error {
-	if len(batch) == 0 {
-		// Nothing to send
-		return nil
-	}
-	buf := new(bytes.Buffer)
-	err := json.NewEncoder(buf).Encode(batch)
-	if err != nil {
-		return err
-	}
-	err = c.makeRequest(buf)
-	if err != nil {
-		return err
-	}
-	return nil
-}
+func (c *HoneycombClient) SendBatch(batch Batch) error { _ = "STUB: not implemented"; return nil }
 
-func (c *HoneycombClient) makeRequest(body io.Reader) error {
-	url, err := url.Parse(c.config.APIHost)
-	if err != nil {
-		return err
-	}
-	url.Path = path.Join(url.Path, "/1/batch", c.config.Dataset)
-	req, err := http.NewRequest("POST", url.String(), body)
-	req.Header.Set("Content-Type", "application/json")
-	req.Header.Add("X-Honeycomb-Team", c.config.WriteKey)
+// Nothing to send
 
-	resp, err := c.httpClient.Do(req)
-	if err != nil {
-		klog.Warningf("Failed to send event: %v", err)
-		return err
-	}
-	defer resp.Body.Close()
-	ioutil.ReadAll(resp.Body)
-	return nil
-}
+func (c *HoneycombClient) makeRequest(body io.Reader) error { _ = "STUB: not implemented"; return nil }

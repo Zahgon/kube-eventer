@@ -22,14 +22,10 @@ type FakeHoneycombClient struct {
 	BatchPoints []*BatchPoint
 }
 
-func NewFakeHoneycombClient() *FakeHoneycombClient {
-	return &FakeHoneycombClient{[]*BatchPoint{}}
-}
+func NewFakeHoneycombClient() *FakeHoneycombClient { _ = "STUB: not implemented"; return nil }
 
 func (client *FakeHoneycombClient) SendBatch(batch Batch) error {
-	for _, batchpoint := range batch {
-		client.BatchPoints = append(client.BatchPoints, batchpoint)
-	}
+	_ = "STUB: not implemented"
 	return nil
 }
 

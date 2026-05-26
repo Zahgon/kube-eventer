@@ -326,18 +326,17 @@ func (c *ScanCursor) TotalHits() int64 {
 //
 // Usage:
 //
-//   for {
-//     res, err := cursor.Next()
-//     if err == elastic.EOS {
-//       // End of stream (or scan)
-//       break
-//     }
-//     if err != nil {
-//       // Handle error
-//     }
-//     // Work with res
-//   }
-//
+//	for {
+//	  res, err := cursor.Next()
+//	  if err == elastic.EOS {
+//	    // End of stream (or scan)
+//	    break
+//	  }
+//	  if err != nil {
+//	    // Handle error
+//	  }
+//	  // Work with res
+//	}
 func (c *ScanCursor) Next() (*SearchResult, error) {
 	if c.currentPage > 0 {
 		if c.Results.Hits == nil || len(c.Results.Hits.Hits) == 0 || c.Results.Hits.TotalHits == 0 {

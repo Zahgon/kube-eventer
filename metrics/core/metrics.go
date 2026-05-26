@@ -146,14 +146,8 @@ var MetricFamilies = map[MetricFamily][]Metric{
 }
 
 func MetricFamilyForName(metricName string) MetricFamily {
-	for family, metrics := range MetricFamilies {
-		for _, metric := range metrics {
-			if metricName == metric.Name {
-				return family
-			}
-		}
-	}
-	return MetricFamilyGeneral
+	_ = "STUB: not implemented"
+	return *new(MetricFamily)
 }
 
 var AllMetrics = append(append(append(append(StandardMetrics, AdditionalMetrics...), RateMetrics...), LabeledMetrics...),
@@ -721,14 +715,7 @@ var MetricFilesystemInodesFree = Metric{
 	},
 }
 
-func IsNodeAutoscalingMetric(name string) bool {
-	for _, autoscalingMetric := range NodeAutoscalingMetrics {
-		if autoscalingMetric.MetricDescriptor.Name == name {
-			return true
-		}
-	}
-	return false
-}
+func IsNodeAutoscalingMetric(name string) bool { _ = "STUB: not implemented"; return false }
 
 type MetricDescriptor struct {
 	// The unique name of the metric.

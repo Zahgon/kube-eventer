@@ -117,7 +117,6 @@ func (r *OffsetResponse) GetBlock(topic string, partition int32) *OffsetResponse
 105 99 0 0 0 1 0 0
 0 0 0 0 0 0 0 1
 0 0 0 0 0 1 1 1] <nil>
-
 */
 func (r *OffsetResponse) encode(pe packetEncoder) (err error) {
 	if err = pe.putArrayLength(len(r.Blocks)); err != nil {

@@ -26,17 +26,7 @@ const (
 	MetricDelta
 )
 
-func (self *MetricType) String() string {
-	switch *self {
-	case MetricCumulative:
-		return "cumulative"
-	case MetricGauge:
-		return "gauge"
-	case MetricDelta:
-		return "delta"
-	}
-	return ""
-}
+func (self *MetricType) String() string { _ = "STUB: not implemented"; return "" }
 
 type ValueType int8
 
@@ -45,15 +35,7 @@ const (
 	ValueFloat
 )
 
-func (self *ValueType) String() string {
-	switch *self {
-	case ValueInt64:
-		return "int64"
-	case ValueFloat:
-		return "double"
-	}
-	return ""
-}
+func (self *ValueType) String() string { _ = "STUB: not implemented"; return "" }
 
 type UnitsType int8
 
@@ -70,19 +52,7 @@ const (
 	UnitsMillicores
 )
 
-func (self *UnitsType) String() string {
-	switch *self {
-	case UnitsBytes:
-		return "bytes"
-	case UnitsMilliseconds:
-		return "ms"
-	case UnitsNanoseconds:
-		return "ns"
-	case UnitsMillicores:
-		return "millicores"
-	}
-	return ""
-}
+func (self *UnitsType) String() string { _ = "STUB: not implemented"; return "" }
 
 type MetricValue struct {
 	IntValue   int64
@@ -91,15 +61,7 @@ type MetricValue struct {
 	ValueType  ValueType
 }
 
-func (this *MetricValue) GetValue() interface{} {
-	if ValueInt64 == this.ValueType {
-		return this.IntValue
-	} else if ValueFloat == this.ValueType {
-		return this.FloatValue
-	} else {
-		return nil
-	}
-}
+func (this *MetricValue) GetValue() interface{} { _ = "STUB: not implemented"; return nil }
 
 type LabeledMetric struct {
 	Name   string
@@ -107,15 +69,7 @@ type LabeledMetric struct {
 	MetricValue
 }
 
-func (this *LabeledMetric) GetValue() interface{} {
-	if ValueInt64 == this.ValueType {
-		return this.IntValue
-	} else if ValueFloat == this.ValueType {
-		return this.FloatValue
-	} else {
-		return nil
-	}
-}
+func (this *LabeledMetric) GetValue() interface{} { _ = "STUB: not implemented"; return nil }
 
 type MetricSet struct {
 	CreateTime     time.Time

@@ -143,83 +143,29 @@ var (
 	}
 )
 
-func InitMetrics() {
-	normalEventCounter = prometheus.NewCounterVec(
-		prometheus.CounterOpts{
-			Namespace: "eventer",
-			Subsystem: "events",
-			Name:      "normal_total",
-		},
-		[]string{"reason", "namespace", "kind"},
-	)
-	errorEventLabels := []string{
-		"reason",
-		"kind",
-		"name",
-		"namespace",
-	}
-	errorEventCounter = prometheus.NewCounterVec(prometheus.CounterOpts{
-		Namespace: "eventer",
-		Subsystem: "events",
-		Name:      "error_total",
-	}, errorEventLabels)
-	warningEventCounter = prometheus.NewCounterVec(prometheus.CounterOpts{
-		Namespace: "eventer",
-		Subsystem: "events",
-		Name:      "warning_total",
-	}, errorEventLabels)
-
-	prometheus.MustRegister(normalEventCounter)
-	prometheus.MustRegister(warningEventCounter)
-	prometheus.MustRegister(errorEventCounter)
-}
+func InitMetrics() { _ = "STUB: not implemented"; return }
 
 func event2Labels(kind AbnormalEventReason, event *v1.Event) []string {
-	return []string{
-		string(kind),
-		event.InvolvedObject.Kind,
-		event.InvolvedObject.Name,
-		event.InvolvedObject.Namespace,
-	}
+	_ = "STUB: not implemented"
+	return nil
 }
 
-func eventCounterInc(reason, namespace, kind string) {
-	normalEventCounter.WithLabelValues(reason, namespace, kind).Inc()
-}
+func eventCounterInc(reason, namespace, kind string) { _ = "STUB: not implemented"; return }
 
 func recordErrorEvent(reason AbnormalEventReason, event *v1.Event) {
-	labels := event2Labels(reason, event)
-	errorEventCounter.WithLabelValues(labels...).Inc()
+	_ = "STUB: not implemented"
+	return
 }
 
 func recordWarningEvent(reason AbnormalEventReason, event *v1.Event) {
-	labels := event2Labels(reason, event)
-	warningEventCounter.WithLabelValues(labels...).Inc()
+	_ = "STUB: not implemented"
+	return
 }
 
 func triageEvent(event *v1.Event) (AbnormalEventReason, bool) {
-	if kind, ok := reasonToEventKind[event.Reason]; ok {
-		return kind, true
-	}
-	if judgements, ok := reasonToEventKindFunc[event.Reason]; ok {
-		for _, j := range judgements {
-			if j.judge(event) {
-				return j.kind, true
-			}
-		}
-	}
-	return "", false
+	_ = "STUB: not implemented"
+	return *new(AbnormalEventReason), false
 }
 
 // RecordEvent records event to prometheus metrics
-func RecordEvent(event *v1.Event) {
-	if kind, ok := triageEvent(event); ok {
-		recordErrorEvent(kind, event)
-	} else {
-		if event.Type == v1.EventTypeWarning {
-			recordWarningEvent(AbnormalEventReason(event.Reason), event)
-		} else {
-			eventCounterInc(event.Reason, event.Namespace, event.InvolvedObject.Kind)
-		}
-	}
-}
+func RecordEvent(event *v1.Event) { _ = "STUB: not implemented"; return }

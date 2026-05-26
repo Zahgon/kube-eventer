@@ -13,12 +13,12 @@ package elastic
 // For more details, see
 // https://www.elastic.co/guide/en/elasticsearch/reference/5.2/query-dsl-has-parent-query.html
 type HasParentQuery struct {
-	query      Query
-	parentType string
-	boost      *float64
-	score      *bool
-	queryName  string
-	innerHit   *InnerHit
+	query          Query
+	parentType     string
+	boost          *float64
+	score          *bool
+	queryName      string
+	innerHit       *InnerHit
 	ignoreUnmapped *bool
 }
 

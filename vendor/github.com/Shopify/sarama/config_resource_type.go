@@ -1,6 +1,6 @@
 package sarama
 
-//ConfigResourceType is a type for config resource
+// ConfigResourceType is a type for config resource
 type ConfigResourceType int8
 
 // Taken from :

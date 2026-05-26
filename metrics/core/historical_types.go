@@ -4,7 +4,7 @@
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//	http://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -14,7 +14,6 @@
 package core
 
 import (
-	"fmt"
 	"time"
 )
 
@@ -99,35 +98,7 @@ type HistoricalKey struct {
 	PodId string
 }
 
-func (key *HistoricalKey) String() string {
-	prefix := fmt.Sprintf("(%s)", key.ObjectType)
-
-	var path string = "[unknown type]"
-	switch key.ObjectType {
-	case MetricSetTypeSystemContainer:
-		path = fmt.Sprintf("node:%s/container:%s", key.NodeName, key.ContainerName)
-	case MetricSetTypePodContainer:
-		if key.PodId != "" {
-			path = fmt.Sprintf("poduid:%s/container:%s", key.PodId, key.ContainerName)
-		} else {
-			path = fmt.Sprintf("ns:%s/pod:%s/container:%s", key.NamespaceName, key.PodName, key.ContainerName)
-		}
-	case MetricSetTypePod:
-		if key.PodId != "" {
-			path = fmt.Sprintf("poduid:%s", key.PodId)
-		} else {
-			path = fmt.Sprintf("ns:%s/pod:%s", key.NamespaceName, key.PodName)
-		}
-	case MetricSetTypeNamespace:
-		path = fmt.Sprintf("ns:%s", key.NamespaceName)
-	case MetricSetTypeNode:
-		path = fmt.Sprintf("node:%s", key.NodeName)
-	case MetricSetTypeCluster:
-		path = "[cluster]"
-	}
-
-	return prefix + path
-}
+func (key *HistoricalKey) String() string { _ = "STUB: not implemented"; return "" }
 
 // HistoricalSource allows for retrieval of historical metrics and aggregations from sinks
 type HistoricalSource interface {

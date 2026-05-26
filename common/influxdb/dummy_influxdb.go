@@ -15,7 +15,6 @@
 package influxdb
 
 import (
-	"strings"
 	"time"
 
 	influxdb "github.com/influxdata/influxdb/client"
@@ -29,28 +28,23 @@ type FakeInfluxDBClient struct {
 	Pnts []PointSavedToInfluxdb
 }
 
-func NewFakeInfluxDBClient() *FakeInfluxDBClient {
-	return &FakeInfluxDBClient{[]PointSavedToInfluxdb{}}
-}
+func NewFakeInfluxDBClient() *FakeInfluxDBClient { _ = "STUB: not implemented"; return nil }
 
 func (client *FakeInfluxDBClient) Write(bps influxdb.BatchPoints) (*influxdb.Response, error) {
-	for _, pnt := range bps.Points {
-		client.Pnts = append(client.Pnts, PointSavedToInfluxdb{pnt})
-	}
+	_ = "STUB: not implemented"
 	return nil, nil
 }
 
 func (client *FakeInfluxDBClient) Query(q influxdb.Query) (*influxdb.Response, error) {
-	numQueries := strings.Count(q.Command, ";")
-
-	// return an empty result for each separate query
-	return &influxdb.Response{
-		Results: make([]influxdb.Result, numQueries),
-	}, nil
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
+// return an empty result for each separate query
+
 func (client *FakeInfluxDBClient) Ping() (time.Duration, string, error) {
-	return 0, "", nil
+	_ = "STUB: not implemented"
+	return *new(time.Duration), "", nil
 }
 
 var Client = NewFakeInfluxDBClient()

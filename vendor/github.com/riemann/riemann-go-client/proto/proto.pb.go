@@ -6,9 +6,11 @@
 Package proto is a generated protocol buffer package.
 
 It is generated from these files:
+
 	proto.proto
 
 It has these top-level messages:
+
 	State
 	Event
 	Query
@@ -17,9 +19,13 @@ It has these top-level messages:
 */
 package proto
 
-import proto1 "github.com/golang/protobuf/proto"
-import fmt "fmt"
-import math "math"
+import (
+	fmt "fmt"
+
+	proto1 "github.com/golang/protobuf/proto"
+
+	math "math"
+)
 
 // Reference imports to suppress errors if they are not otherwise used.
 var _ = proto1.Marshal

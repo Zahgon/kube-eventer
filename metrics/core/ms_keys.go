@@ -14,35 +14,22 @@
 
 package core
 
-import (
-	"fmt"
-)
-
 // MetricsSet keys inside of DataBatch. The structure of the returned string is
 // an implementation detail and no component should rely on it as it may change
 // anytime. It it only guaranteed that it is unique for the unique combination of
 // passed parameters.
 
 func PodContainerKey(namespace, podName, containerName string) string {
-	return fmt.Sprintf("namespace:%s/pod:%s/container:%s", namespace, podName, containerName)
+	_ = "STUB: not implemented"
+	return ""
 }
 
-func PodKey(namespace, podName string) string {
-	return fmt.Sprintf("namespace:%s/pod:%s", namespace, podName)
-}
+func PodKey(namespace, podName string) string { _ = "STUB: not implemented"; return "" }
 
-func NamespaceKey(namespace string) string {
-	return fmt.Sprintf("namespace:%s", namespace)
-}
+func NamespaceKey(namespace string) string { _ = "STUB: not implemented"; return "" }
 
-func NodeKey(node string) string {
-	return fmt.Sprintf("node:%s", node)
-}
+func NodeKey(node string) string { _ = "STUB: not implemented"; return "" }
 
-func NodeContainerKey(node, container string) string {
-	return fmt.Sprintf("node:%s/container:%s", node, container)
-}
+func NodeContainerKey(node, container string) string { _ = "STUB: not implemented"; return "" }
 
-func ClusterKey() string {
-	return "cluster"
-}
+func ClusterKey() string { _ = "STUB: not implemented"; return "" }

@@ -17,7 +17,7 @@ limitations under the License.
 package v1
 
 import (
-	"k8s.io/api/core/v1"
+	v1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	runtime "k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/util/intstr"
@@ -38,8 +38,9 @@ const (
 
 // StatefulSet represents a set of pods with consistent identities.
 // Identities are defined as:
-//  - Network: A single stable DNS and hostname.
-//  - Storage: As many VolumeClaims as requested.
+//   - Network: A single stable DNS and hostname.
+//   - Storage: As many VolumeClaims as requested.
+//
 // The StatefulSet guarantees that a given network identity will always
 // map to the same storage identity.
 type StatefulSet struct {

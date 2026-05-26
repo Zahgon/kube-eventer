@@ -21,7 +21,7 @@
 // AWS product, you can find the product's technical documentation at http://aws.amazon.com/documentation/
 // (http://aws.amazon.com/documentation/).
 //
-// Endpoints
+// # Endpoints
 //
 // By default, AWS Security Token Service (STS) is available as a global service,
 // and all AWS STS requests go to a single endpoint at https://sts.amazonaws.com.
@@ -56,7 +56,7 @@
 // see Writing Code to Use AWS STS Regions (https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_enable-regions.html#id_credentials_temp_enable-regions_writing_code)
 // in the IAM User Guide.
 //
-// Recording API requests
+// # Recording API requests
 //
 // STS supports AWS CloudTrail, which is a service that records AWS calls for
 // your AWS account and delivers log files to an Amazon S3 bucket. By using
@@ -90,7 +90,7 @@
 // See sts package documentation for more information.
 // https://docs.aws.amazon.com/sdk-for-go/api/service/sts/
 //
-// Using the Client
+// # Using the Client
 //
 // To contact AWS Security Token Service with the SDK use the New function to create
 // a new service client. With that client you can make API requests to the service.

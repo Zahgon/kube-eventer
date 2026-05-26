@@ -6,9 +6,11 @@
 Package openapi_v2 is a generated protocol buffer package.
 
 It is generated from these files:
+
 	OpenAPIv2/OpenAPIv2.proto
 
 It has these top-level messages:
+
 	AdditionalPropertiesItem
 	Any
 	ApiKeySecurity
@@ -72,10 +74,15 @@ It has these top-level messages:
 */
 package openapi_v2
 
-import proto "github.com/golang/protobuf/proto"
-import fmt "fmt"
-import math "math"
-import google_protobuf "github.com/golang/protobuf/ptypes/any"
+import (
+	fmt "fmt"
+
+	proto "github.com/golang/protobuf/proto"
+
+	math "math"
+
+	google_protobuf "github.com/golang/protobuf/ptypes/any"
+)
 
 // Reference imports to suppress errors if they are not otherwise used.
 var _ = proto.Marshal

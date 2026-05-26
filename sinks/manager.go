@@ -15,12 +15,10 @@
 package sinks
 
 import (
-	"sync"
 	"time"
 
 	"github.com/AliyunContainerService/kube-eventer/core"
 	"github.com/prometheus/client_golang/prometheus"
-	"k8s.io/klog/v2"
 )
 
 const (
@@ -62,85 +60,21 @@ type sinkManager struct {
 }
 
 func NewEventSinkManager(sinks []core.EventSink, exportEventsTimeout, stopTimeout time.Duration) (core.EventSink, error) {
-	sinkHolders := []sinkHolder{}
-	for _, sink := range sinks {
-		sh := sinkHolder{
-			sink:              sink,
-			eventBatchChannel: make(chan *core.EventBatch),
-			stopChannel:       make(chan bool),
-		}
-		sinkHolders = append(sinkHolders, sh)
-		go func(sh sinkHolder) {
-			for {
-				select {
-				case data := <-sh.eventBatchChannel:
-					export(sh.sink, data)
-				case isStop := <-sh.stopChannel:
-					klog.V(2).Infof("Stop received: %s", sh.sink.Name())
-					if isStop {
-						sh.sink.Stop()
-						return
-					}
-				}
-			}
-		}(sh)
-	}
-	return &sinkManager{
-		sinkHolders:         sinkHolders,
-		exportEventsTimeout: exportEventsTimeout,
-		stopTimeout:         stopTimeout,
-	}, nil
+	_ = "STUB: not implemented"
+	return *new(core.EventSink), nil
 }
 
 // ExportEvents Guarantees that the export will complete in exportEventsTimeout.
-func (this *sinkManager) ExportEvents(data *core.EventBatch) {
-	var wg sync.WaitGroup
-	for _, sh := range this.sinkHolders {
-		wg.Add(1)
-		go func(sh sinkHolder, wg *sync.WaitGroup) {
-			defer wg.Done()
-			klog.V(2).Infof("Pushing events to: %s", sh.sink.Name())
-			select {
-			case sh.eventBatchChannel <- data:
-				klog.V(2).Infof("Data events completed: %s", sh.sink.Name())
-				// everything ok
-			case <-time.After(this.exportEventsTimeout):
-				klog.Warningf("Failed to events data to sink: %s", sh.sink.Name())
-			}
-		}(sh, &wg)
-	}
-	// Wait for all pushes to complete or timeout.
-	wg.Wait()
-}
+func (this *sinkManager) ExportEvents(data *core.EventBatch) { _ = "STUB: not implemented"; return }
 
-func (this *sinkManager) Name() string {
-	return "Manager"
-}
+// everything ok
 
-func (this *sinkManager) Stop() {
-	for _, sh := range this.sinkHolders {
-		klog.V(2).Infof("Running stop for: %s", sh.sink.Name())
+// Wait for all pushes to complete or timeout.
 
-		go func(sh sinkHolder) {
-			select {
-			case sh.stopChannel <- true:
-				// everything ok
-				klog.V(2).Infof("Stop sent to sink: %s", sh.sink.Name())
+func (this *sinkManager) Name() string { _ = "STUB: not implemented"; return "" }
 
-			case <-time.After(this.stopTimeout):
-				klog.Warningf("Failed to stop sink: %s", sh.sink.Name())
-			}
-			return
-		}(sh)
-	}
-}
+func (this *sinkManager) Stop() { _ = "STUB: not implemented"; return }
 
-func export(s core.EventSink, data *core.EventBatch) {
-	startTime := time.Now()
-	defer func() {
-		exporterDuration.
-			WithLabelValues(s.Name()).
-			Observe(float64(time.Since(startTime)) / float64(time.Millisecond))
-	}()
-	s.ExportEvents(data)
-}
+// everything ok
+
+func export(s core.EventSink, data *core.EventBatch) { _ = "STUB: not implemented"; return }

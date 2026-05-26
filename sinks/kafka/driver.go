@@ -15,17 +15,12 @@
 package kafka
 
 import (
-	"encoding/json"
-	"github.com/AliyunContainerService/kube-eventer/util"
 	"net/url"
 	"sync"
 	"time"
 
-	"k8s.io/klog/v2"
-
 	kafka_common "github.com/AliyunContainerService/kube-eventer/common/kafka"
 	event_core "github.com/AliyunContainerService/kube-eventer/core"
-	"github.com/AliyunContainerService/kube-eventer/metrics/core"
 	kube_api "k8s.io/api/core/v1"
 )
 
@@ -41,58 +36,22 @@ type kafkaSink struct {
 }
 
 func getEventValue(event *kube_api.Event) (string, error) {
+	_ = "STUB: not implemented"
 	// TODO: check whether indenting is required.
-	bytes, err := json.MarshalIndent(event, "", " ")
-	if err != nil {
-		return "", err
-	}
-	return string(bytes), nil
+	return "", nil
 }
 
 func eventToPoint(event *kube_api.Event) (*KafkaSinkPoint, error) {
-	value, err := getEventValue(event)
-	if err != nil {
-		return nil, err
-	}
-	point := KafkaSinkPoint{
-		EventTimestamp: util.GetLastEventTimestamp(event).UTC(),
-		EventValue:     value,
-		EventTags: map[string]string{
-			"eventID": string(event.UID),
-		},
-	}
-	if event.InvolvedObject.Kind == "Pod" {
-		point.EventTags[core.LabelPodId.Key] = string(event.InvolvedObject.UID)
-		point.EventTags[core.LabelPodName.Key] = event.InvolvedObject.Name
-	}
-	point.EventTags[core.LabelHostname.Key] = event.Source.Host
-	return &point, nil
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 func (sink *kafkaSink) ExportEvents(eventBatch *event_core.EventBatch) {
-	sink.Lock()
-	defer sink.Unlock()
-
-	for _, event := range eventBatch.Events {
-		point, err := eventToPoint(event)
-		if err != nil {
-			klog.Warningf("Failed to convert event to point: %v", err)
-		}
-
-		err = sink.ProduceKafkaMessage(*point)
-		if err != nil {
-			klog.Errorf("Failed to produce event message: %s", err)
-		}
-	}
+	_ = "STUB: not implemented"
+	return
 }
 
 func NewKafkaSink(uri *url.URL) (event_core.EventSink, error) {
-	client, err := kafka_common.NewKafkaClient(uri, kafka_common.EventsTopic)
-	if err != nil {
-		return nil, err
-	}
-
-	return &kafkaSink{
-		KafkaClient: client,
-	}, nil
+	_ = "STUB: not implemented"
+	return *new(event_core.EventSink), nil
 }

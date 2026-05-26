@@ -22,14 +22,10 @@ type FakeLibratoClient struct {
 	Measurements []MeasurementsSavedToLibrato
 }
 
-func NewFakeLibratoClient() *FakeLibratoClient {
-	return &FakeLibratoClient{[]MeasurementsSavedToLibrato{}}
-}
+func NewFakeLibratoClient() *FakeLibratoClient { _ = "STUB: not implemented"; return nil }
 
 func (client *FakeLibratoClient) Write(measurements []Measurement) error {
-	for _, measurement := range measurements {
-		client.Measurements = append(client.Measurements, MeasurementsSavedToLibrato{measurement})
-	}
+	_ = "STUB: not implemented"
 	return nil
 }
 

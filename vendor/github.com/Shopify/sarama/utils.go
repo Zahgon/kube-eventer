@@ -124,8 +124,9 @@ func newKafkaVersion(major, minor, veryMinor, patch uint) KafkaVersion {
 
 // IsAtLeast return true if and only if the version it is called on is
 // greater than or equal to the version passed in:
-//    V1.IsAtLeast(V2) // false
-//    V2.IsAtLeast(V1) // true
+//
+//	V1.IsAtLeast(V2) // false
+//	V2.IsAtLeast(V1) // true
 func (v KafkaVersion) IsAtLeast(other KafkaVersion) bool {
 	for i := range v.version {
 		if v.version[i] > other.version[i] {
@@ -188,7 +189,7 @@ var (
 	MaxVersion = V2_2_0_0
 )
 
-//ParseKafkaVersion parses and returns kafka version or error from a string
+// ParseKafkaVersion parses and returns kafka version or error from a string
 func ParseKafkaVersion(s string) (KafkaVersion, error) {
 	if len(s) < 5 {
 		return MinVersion, fmt.Errorf("invalid version `%s`", s)

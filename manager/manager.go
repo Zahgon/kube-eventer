@@ -19,7 +19,6 @@ import (
 
 	"github.com/AliyunContainerService/kube-eventer/core"
 	"github.com/prometheus/client_golang/prometheus"
-	"k8s.io/klog/v2"
 )
 
 var (
@@ -53,52 +52,22 @@ type realManager struct {
 }
 
 func NewManager(source core.EventSource, sink core.EventSink, frequency time.Duration) (Manager, error) {
-	manager := realManager{
-		source:    source,
-		sink:      sink,
-		frequency: frequency,
-		stopChan:  make(chan struct{}),
-	}
-
-	return &manager, nil
+	_ = "STUB: not implemented"
+	return *new(Manager), nil
 }
 
-func (rm *realManager) Start() {
-	go rm.Housekeep()
-}
+func (rm *realManager) Start() { _ = "STUB: not implemented"; return }
 
-func (rm *realManager) Stop() {
-	rm.stopChan <- struct{}{}
-}
+func (rm *realManager) Stop() { _ = "STUB: not implemented"; return }
 
 func (rm *realManager) Housekeep() {
-	for {
-		// Try to invoke housekeep at fixed time.
-		now := time.Now()
-		start := now.Truncate(rm.frequency)
-		end := start.Add(rm.frequency)
-		timeToNextSync := end.Sub(now)
+	_ = "STUB: not implemented"
 
-		select {
-		case <-time.After(timeToNextSync):
-			rm.housekeep()
-		case <-rm.stopChan:
-			rm.sink.Stop()
-			return
-		}
-	}
+	// Try to invoke housekeep at fixed time.
+	return
 }
 
-func (rm *realManager) housekeep() {
-	defer func() {
-		lastHousekeepTimestamp.Set(float64(time.Now().Unix()))
-	}()
+func (rm *realManager) housekeep() { _ = "STUB: not implemented"; return }
 
-	LatestScrapeTime = time.Now()
-
-	// No parallelism. Assumes that the events are pushed to Heapster. Add parallelism
-	// when this stops to be true.
-	events := rm.source.GetNewEvents()
-	klog.V(0).Infof("Exporting %d events", len(events.Events))
-	rm.sink.ExportEvents(events)
-}
+// No parallelism. Assumes that the events are pushed to Heapster. Add parallelism
+// when this stops to be true.

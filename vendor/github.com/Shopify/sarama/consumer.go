@@ -748,7 +748,7 @@ done:
 	close(bc.newSubscriptions)
 }
 
-//subscriptionConsumer ensures we will get nil right away if no new subscriptions is available
+// subscriptionConsumer ensures we will get nil right away if no new subscriptions is available
 func (bc *brokerConsumer) subscriptionConsumer() {
 	<-bc.wait // wait for our first piece of work
 
@@ -797,7 +797,7 @@ func (bc *brokerConsumer) updateSubscriptions(newSubscriptions []*partitionConsu
 	}
 }
 
-//handleResponses handles the response codes left for us by our subscriptions, and abandons ones that have been closed
+// handleResponses handles the response codes left for us by our subscriptions, and abandons ones that have been closed
 func (bc *brokerConsumer) handleResponses() {
 	for child := range bc.subscriptions {
 		result := child.responseResult

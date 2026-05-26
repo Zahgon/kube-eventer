@@ -15,74 +15,21 @@
 package sinks
 
 import (
-	"fmt"
 	"github.com/AliyunContainerService/kube-eventer/common/flags"
 	"github.com/AliyunContainerService/kube-eventer/core"
-	"github.com/AliyunContainerService/kube-eventer/sinks/dingtalk"
-	"github.com/AliyunContainerService/kube-eventer/sinks/elasticsearch"
-	"github.com/AliyunContainerService/kube-eventer/sinks/eventbridge"
-	"github.com/AliyunContainerService/kube-eventer/sinks/honeycomb"
-	"github.com/AliyunContainerService/kube-eventer/sinks/influxdb"
-	"github.com/AliyunContainerService/kube-eventer/sinks/kafka"
-	"github.com/AliyunContainerService/kube-eventer/sinks/log"
-	"github.com/AliyunContainerService/kube-eventer/sinks/mongo"
-	"github.com/AliyunContainerService/kube-eventer/sinks/mysql"
-	"github.com/AliyunContainerService/kube-eventer/sinks/riemann"
-	"github.com/AliyunContainerService/kube-eventer/sinks/sls"
-	"github.com/AliyunContainerService/kube-eventer/sinks/webhook"
-	"github.com/AliyunContainerService/kube-eventer/sinks/wechat"
-	"k8s.io/klog/v2"
 )
 
 type SinkFactory struct {
 }
 
 func (this *SinkFactory) Build(uri flags.Uri) (core.EventSink, error) {
-	switch uri.Key {
-	case "log":
-		return logsink.CreateLogSink()
-	case "influxdb":
-		return influxdb.CreateInfluxdbSink(&uri.Val)
-	case "mysql":
-		return mysql.CreateMysqlSink(&uri.Val)
-	case "elasticsearch":
-		return elasticsearch.NewElasticSearchSink(&uri.Val)
-	case "kafka":
-		return kafka.NewKafkaSink(&uri.Val)
-	case "riemann":
-		return riemann.CreateRiemannSink(&uri.Val)
-	case "honeycomb":
-		return honeycomb.NewHoneycombSink(&uri.Val)
-	case "dingtalk":
-		return dingtalk.NewDingTalkSink(&uri.Val)
-	case "sls":
-		return sls.NewSLSSink(&uri.Val)
-	case "wechat":
-		return wechat.NewWechatSink(&uri.Val)
-	case "webhook":
-		return webhook.NewWebHookSink(&uri.Val)
-	case "eventbridge":
-		return eventbridge.NewEventBridgeSink(&uri.Val)
-	case "mongo":
-		return mongo.CreateMongoSink(&uri.Val)
-	default:
-		return nil, fmt.Errorf("Sink not recognized: %s", uri.Key)
-	}
+	_ = "STUB: not implemented"
+	return *new(core.EventSink), nil
 }
 
 func (this *SinkFactory) BuildAll(uris flags.Uris) []core.EventSink {
-	result := make([]core.EventSink, 0, len(uris))
-	for _, uri := range uris {
-		sink, err := this.Build(uri)
-		if err != nil {
-			klog.Errorf("Failed to create %v sink: %v", uri, err)
-			continue
-		}
-		result = append(result, sink)
-	}
-	return result
+	_ = "STUB: not implemented"
+	return nil
 }
 
-func NewSinkFactory() *SinkFactory {
-	return &SinkFactory{}
-}
+func NewSinkFactory() *SinkFactory { _ = "STUB: not implemented"; return nil }

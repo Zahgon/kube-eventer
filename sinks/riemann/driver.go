@@ -15,18 +15,13 @@
 package riemann
 
 import (
-	"github.com/AliyunContainerService/kube-eventer/util"
 	"net/url"
-	"strconv"
-	"strings"
 	"sync"
 	"time"
 
 	riemannCommon "github.com/AliyunContainerService/kube-eventer/common/riemann"
 	"github.com/AliyunContainerService/kube-eventer/core"
-	"github.com/riemann/riemann-go-client"
 	kube_api "k8s.io/api/core/v1"
-	"k8s.io/klog/v2"
 )
 
 // contains the riemann client, the riemann configuration, and a RWMutex
@@ -38,111 +33,31 @@ type RiemannSink struct {
 
 // creates a Riemann sink. Returns a riemannSink
 func CreateRiemannSink(uri *url.URL) (core.EventSink, error) {
-	var sink, err = riemannCommon.CreateRiemannSink(uri)
-	if err != nil {
-		klog.Warningf("Error creating the Riemann metrics sink: %v", err)
-		return nil, err
-	}
-	rs := &RiemannSink{
-		client: sink.Client,
-		config: sink.Config,
-	}
-	return rs, nil
+	_ = "STUB: not implemented"
+	return *new(core.EventSink), nil
 }
 
 // Return a user-friendly string describing the sink
-func (sink *RiemannSink) Name() string {
-	return "Riemann Sink"
-}
+func (sink *RiemannSink) Name() string { _ = "STUB: not implemented"; return "" }
 
-func (sink *RiemannSink) Stop() {
-	sink.client.Close()
-}
+func (sink *RiemannSink) Stop() { _ = "STUB: not implemented"; return }
 
-func getEventState(event *kube_api.Event) string {
-	switch event.Type {
-	case "Normal":
-		return "ok"
-	case "Warning":
-		return "warning"
-	default:
-		return "warning"
-	}
-}
+func getEventState(event *kube_api.Event) string { _ = "STUB: not implemented"; return "" }
 
 func appendEvent(events []riemanngo.Event, sink *RiemannSink, event *kube_api.Event, timestamp time.Time) []riemanngo.Event {
-	firstTimestamp := ""
-	lastTimestamp := ""
-	if !event.FirstTimestamp.IsZero() {
-		firstTimestamp = strconv.FormatInt(event.FirstTimestamp.Unix(), 10)
-	}
-	if !util.GetLastEventTimestamp(event).IsZero() {
-		lastTimestamp = strconv.FormatInt(util.GetLastEventTimestamp(event).Unix(), 10)
-	}
-	riemannEvent := riemanngo.Event{
-		Time:        timestamp,
-		Service:     strings.Join([]string{event.InvolvedObject.Kind, event.Reason}, "."),
-		Host:        event.Source.Host,
-		Description: event.Message,
-		Attributes: map[string]string{
-			"namespace":        event.InvolvedObject.Namespace,
-			"uid":              string(event.InvolvedObject.UID),
-			"name":             event.InvolvedObject.Name,
-			"api-version":      event.InvolvedObject.APIVersion,
-			"resource-version": event.InvolvedObject.ResourceVersion,
-			"field-path":       event.InvolvedObject.FieldPath,
-			"component":        event.Source.Component,
-			"last-timestamp":   lastTimestamp,
-			"first-timestamp":  firstTimestamp,
-		},
-		Metric: event.Count,
-		Ttl:    sink.config.Ttl,
-		State:  getEventState(event),
-		Tags:   sink.config.Tags,
-	}
-
-	events = append(events, riemannEvent)
-	if len(events) >= sink.config.BatchSize {
-		err := riemannCommon.SendData(sink.client, events)
-		if err != nil {
-			klog.Warningf("Error sending events to Riemann: %v", err)
-			// client will reconnect later
-			sink.client = nil
-		}
-		events = nil
-	}
-	return events
+	_ = "STUB: not implemented"
+	return nil
 }
+
+// client will reconnect later
 
 func (sink *RiemannSink) ExportEvents(eventBatch *core.EventBatch) {
-	sink.Lock()
-	defer sink.Unlock()
-
-	if sink.client == nil {
-		// the client could be nil here, so we reconnect
-		client, err := riemannCommon.GetRiemannClient(sink.config)
-		if err != nil {
-			klog.Warningf("Riemann sink not connected: %v", err)
-			return
-		}
-		sink.client = client
-	}
-
-	var events []riemanngo.Event
-
-	for _, event := range eventBatch.Events {
-		timestamp := eventBatch.Timestamp
-		// creates an event and add it to dataEvent
-		events = appendEvent(events, sink, event, timestamp)
-	}
-
-	if len(events) > 0 {
-		err := riemannCommon.SendData(sink.client, events)
-		if err != nil {
-			klog.Warningf("Error sending events to Riemann: %v", err)
-			// client will reconnect later
-			sink.client = nil
-		}
-		events = nil
-	}
+	_ = "STUB: not implemented"
+	return
 }
+
+// the client could be nil here, so we reconnect
+
+// creates an event and add it to dataEvent
+
+// client will reconnect later

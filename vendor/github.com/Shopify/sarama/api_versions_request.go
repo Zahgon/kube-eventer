@@ -1,6 +1,6 @@
 package sarama
 
-//ApiVersionsRequest ...
+// ApiVersionsRequest ...
 type ApiVersionsRequest struct {
 }
 
